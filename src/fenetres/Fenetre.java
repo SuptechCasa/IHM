@@ -23,7 +23,7 @@ public Fenetre(Dimension dimension, Color color) {
 	JPanel nord=new JPanel();nord.setBackground(Color.blue);
 	JPanel sud=new JPanel();sud.setBackground(Color.yellow);
 	JPanel est=new JPanel();est.setBackground(Color.green);
-	JPanel ouest=new JPanel();ouest.setBackground(Color.RED);
+	JPanel ouest=new JPanel();ouest.setBackground(Color.RED);    ouest.setPreferredSize(new Dimension(150, getHeight()));
 	JPanel centre=new JPanel();centre.setBackground(Color.WHITE);
 	//Ajouter les panneaux à la fenêtre
 	getContentPane().add(nord,BorderLayout.NORTH);
