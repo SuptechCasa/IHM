@@ -20,12 +20,26 @@ public Fenetre(Dimension dimension, Color color) {
 	//Définir la disposition
 	getContentPane().setLayout(new BorderLayout());
 	//Créer des panneaux
-	JPanel nord=new JPanel();nord.setBackground(Color.blue);
-	JPanel sud=new JPanel();sud.setBackground(Color.yellow);
-	JPanel est=new JPanel();est.setBackground(Color.green);
-	JPanel ouest=new JPanel();ouest.setBackground(Color.RED);    ouest.setPreferredSize(new Dimension(150, getHeight()));
-	JPanel centre=new JPanel();centre.setBackground(Color.WHITE);
-	//Ajouter les panneaux à la fenêtre
+	JPanel nord = new JPanel();
+    nord.setBackground(Color.blue);
+    nord.setPreferredSize(new Dimension(dimension.width, 50)); // Fixed height
+
+    JPanel sud = new JPanel();
+    sud.setBackground(Color.yellow);
+    sud.setPreferredSize(new Dimension(dimension.width, 50)); // Fixed height
+
+    JPanel est = new JPanel();
+    est.setBackground(Color.green);
+    est.setPreferredSize(new Dimension(100, dimension.height - 100)); // Fixed width
+
+    JPanel ouest = new JPanel();
+    ouest.setBackground(Color.RED);
+    ouest.setPreferredSize(new Dimension(100, dimension.height - 100)); // Fixed width
+
+    JPanel centre = new JPanel();
+    centre.setBackground(Color.WHITE);
+    
+    
 	getContentPane().add(nord,BorderLayout.NORTH);
 	getContentPane().add(sud,BorderLayout.SOUTH);
 	getContentPane().add(est,BorderLayout.EAST);
