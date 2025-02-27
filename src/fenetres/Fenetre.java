@@ -11,7 +11,7 @@ import javax.swing.border.Border;
 public class Fenetre extends JFrame {
 public Fenetre(Dimension dimension, Color color) {
 	setSize(dimension);
-	setLocationRelativeTo(null);//Centrer la fenêtre
+	setLocationRelativeTo(null);
 	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	getContentPane().setBackground(color);
 	//Définir la disposition
