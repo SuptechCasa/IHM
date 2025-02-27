@@ -43,6 +43,11 @@ public Fenetre(Dimension dimension, Color color) {
     JPanel centre = new JPanel();
     centre.setBackground(Color.WHITE);
     centre.setBorder(panelBorder);
+    
+    JTextField nom=new JTextField();
+    JButton btn=new JButton("Ajouter");
+    centre.add(nom);centre.add(btn);
+    
     // No preferred size needed, it will take the remaining space
 
     // Add panels to the window
