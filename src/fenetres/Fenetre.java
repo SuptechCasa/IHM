@@ -48,7 +48,6 @@ public Fenetre(Dimension dimension, Color color) {
     JButton btn=new JButton("Ajouter");
     centre.add(nom);centre.add(btn);
     
-    // No preferred size needed, it will take the remaining space
 
     // Add panels to the window
     getContentPane().add(nord, BorderLayout.NORTH);
