@@ -5,6 +5,9 @@ import java.awt.BorderLayout;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.GridLayout;
+import java.awt.Label;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 
@@ -41,9 +44,21 @@ public Fenetre(Dimension dimension, Color color) {
     ouest.setBorder(panelBorder);
 
     JPanel centre = new JPanel();
+    centre.setLayout(new BorderLayout());
+    JPanel centreContent=new JPanel();
+    centreContent.setLayout(new GridLayout(4, 2, 0, 10));
+    centre.add(centreContent,BorderLayout.CENTER);
+    
+    JPanel estPanel=new JPanel();centre.add(estPanel,BorderLayout.EAST);
+    JPanel ouestPanel=new JPanel();centre.add(ouestPanel,BorderLayout.WEST);
+    JPanel sudPanel=new JPanel();centre.add(sudPanel,BorderLayout.SOUTH);
+    
+    estPanel.setPreferredSize(new Dimension(100,100));
+    ouestPanel.setPreferredSize(new Dimension(100,100));
+    sudPanel.setPreferredSize(new Dimension(100,220));
+    
     centre.setBackground(Color.WHITE);
     centre.setBorder(panelBorder);
-    // No preferred size needed, it will take the remaining space
 
     // Add panels to the window
     getContentPane().add(nord, BorderLayout.NORTH);
@@ -52,6 +67,29 @@ public Fenetre(Dimension dimension, Color color) {
     getContentPane().add(ouest, BorderLayout.WEST);
     getContentPane().add(centre, BorderLayout.CENTER);
 
-	setVisible(true);
+    JLabel lnom=new JLabel("Nom"); 
+    JLabel lprenom=new JLabel("Prénom"); 
+    JLabel lsexe=new JLabel("Sexe"); 
+    JLabel lfiliere=new JLabel("Filière");
+    //Ajouter les composants
+    JTextField nom=new JTextField();
+    JTextField prenom=new JTextField();
+    
+    JRadioButton F=new JRadioButton("F");
+    JRadioButton M=new JRadioButton("M");
+    ButtonGroup sexeButtonGoup=new ButtonGroup();
+    sexeButtonGoup.add(M);sexeButtonGoup.add(F);
+    JPanel sexe=new JPanel();
+    sexe.add(F);sexe.add(M);
+    
+    String[] options= {"Informatique","Biologie","Commerce"};
+    JComboBox<String> filiere=new JComboBox<String>(options);
+    
+    centreContent.add(lnom);centreContent.add(nom);
+    centreContent.add(lprenom);centreContent.add(prenom);
+    centreContent.add(lsexe);centreContent.add(sexe);
+    centreContent.add(lfiliere);centreContent.add(filiere);
+    
+    setVisible(true);
 }
 }
