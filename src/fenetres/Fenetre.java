@@ -7,9 +7,11 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Label;
+import java.awt.ScrollPane;
 
 import javax.swing.*;
 import javax.swing.border.Border;
+import javax.swing.table.DefaultTableModel;
 
 public class Fenetre extends JFrame {
 public Fenetre(Dimension dimension, Color color) {
@@ -89,6 +91,15 @@ public Fenetre(Dimension dimension, Color color) {
     centreContent.add(lprenom);centreContent.add(prenom);
     centreContent.add(lsexe);centreContent.add(sexe);
     centreContent.add(lfiliere);centreContent.add(filiere);
+    
+    DefaultTableModel tableModel=new DefaultTableModel(
+    		new Object[][] {{"HAKIMI","Achraf","M","Informatique"},{"BOUNOU","Yassine","M","Commerce"},{"AMRABET","Soufiane","M","Biologie"},{"ZIYECH","HAKIM","M","Informatique"}},
+    		new Object[] {"Nom","Prénom","Sexe","filière"}
+    		);
+    JTable table=new JTable(tableModel);
+    JScrollPane scrolPane=new JScrollPane(table);
+    scrolPane.setPreferredSize(new Dimension(300, 100));
+    sudPanel.add(scrolPane);
     
     setVisible(true);
 }
