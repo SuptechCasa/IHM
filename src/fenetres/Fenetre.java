@@ -8,6 +8,8 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Label;
 import java.awt.ScrollPane;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -58,7 +60,13 @@ public Fenetre(Dimension dimension, Color color) {
     estPanel.setPreferredSize(new Dimension(100,100));
     ouestPanel.setPreferredSize(new Dimension(100,100));
     sudPanel.setPreferredSize(new Dimension(100,220));
-    
+    sudPanel.setLayout(new BorderLayout());
+    JButton ajouterBTN=new JButton("Ajouter");
+    JPanel cPanel=new JPanel();
+    estPanel.add(cPanel,BorderLayout.CENTER);
+
+    cPanel.setPreferredSize(new Dimension(100, 102));
+    estPanel.add(ajouterBTN,BorderLayout.SOUTH);
     centre.setBackground(Color.WHITE);
     centre.setBorder(panelBorder);
 
@@ -101,6 +109,17 @@ public Fenetre(Dimension dimension, Color color) {
     scrolPane.setPreferredSize(new Dimension(300, 100));
     sudPanel.add(scrolPane);
     
+    ajouterBTN.addActionListener(new ActionListener() {	
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			String vnom=nom.getText();
+			String vprenom=prenom.getText();
+			String vSexe=(F.isSelected())?"F":"M";
+			String vFiliere=filiere.getSelectedItem().toString();
+			System.out.println("{"+vnom+","+vprenom+","+vSexe+","+vFiliere+"}");
+			tableModel.addRow(new Object[]{vnom,vprenom,vSexe,vFiliere});
+		}
+	});
     setVisible(true);
 }
 }
