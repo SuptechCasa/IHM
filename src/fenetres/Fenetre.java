@@ -10,13 +10,19 @@ import java.awt.Label;
 import java.awt.ScrollPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
 
+import model.Etudiant;
+import service.EtudiantService;
+
 public class Fenetre extends JFrame {
-public Fenetre(Dimension dimension, Color color) {
+public Fenetre(Dimension dimension, Color color) throws SQLException {
+	EtudiantService etudiantService=new EtudiantService();
+	
 	setSize(dimension);
 	setLocationRelativeTo(null);//Centrer la fenêtre
 	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -101,13 +107,18 @@ public Fenetre(Dimension dimension, Color color) {
     centreContent.add(lfiliere);centreContent.add(filiere);
     
     DefaultTableModel tableModel=new DefaultTableModel(
-    		new Object[][] {{"HAKIMI","Achraf","M","Informatique"},{"BOUNOU","Yassine","M","Commerce"},{"AMRABET","Soufiane","M","Biologie"},{"ZIYECH","HAKIM","M","Informatique"}},
+    		new Object[][] {},
     		new Object[] {"Nom","Prénom","Sexe","filière"}
     		);
     JTable table=new JTable(tableModel);
     JScrollPane scrolPane=new JScrollPane(table);
     scrolPane.setPreferredSize(new Dimension(300, 100));
     sudPanel.add(scrolPane);
+    
+    //Remplir le tableau
+    etudiantService.getAllEtudiants().forEach(etudiant->{
+    	tableModel.addRow(etudiant.toObjectArray());
+    });
     
     ajouterBTN.addActionListener(new ActionListener() {	
 		@Override
@@ -118,6 +129,13 @@ public Fenetre(Dimension dimension, Color color) {
 			String vFiliere=filiere.getSelectedItem().toString();
 			System.out.println("{"+vnom+","+vprenom+","+vSexe+","+vFiliere+"}");
 			tableModel.addRow(new Object[]{vnom,vprenom,vSexe,vFiliere});
+			Etudiant etudiant=new Etudiant(0, vnom, vprenom, vSexe, vFiliere);
+			try {
+				etudiantService.addEtudiant(etudiant);
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 	});
     setVisible(true);
