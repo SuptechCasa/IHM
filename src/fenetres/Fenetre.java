@@ -10,6 +10,8 @@ import java.awt.Label;
 import java.awt.ScrollPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 
 import javax.swing.*;
@@ -119,6 +121,24 @@ public Fenetre(Dimension dimension, Color color) throws SQLException {
     etudiantService.getAllEtudiants().forEach(etudiant->{
     	tableModel.addRow(etudiant.toObjectArray());
     });
+    
+    JPopupMenu popupMenu=new JPopupMenu();
+    JMenuItem menuSupprimer=new JMenuItem("Supprimer");
+    JMenuItem menuModifier=new JMenuItem("Modifier");
+    menuSupprimer.addActionListener(e->System.out.println(table.getSelectedRow()));
+    popupMenu.add(menuModifier);popupMenu.add(menuSupprimer);
+    table.addMouseListener(new MouseAdapter() {
+    	@Override
+    	public void mousePressed(MouseEvent e) {
+    		if (e.getButton()==3)
+    		popupMenu.show(e.getComponent(), e.getX(), e.getY());
+    	}
+    	@Override
+    	public void mouseReleased(MouseEvent e) {
+    		if (e.getButton()==3)
+    		popupMenu.show(e.getComponent(), e.getX(), e.getY());
+    	}
+	});
     
     ajouterBTN.addActionListener(new ActionListener() {	
 		@Override
