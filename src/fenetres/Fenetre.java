@@ -153,7 +153,6 @@ public Fenetre(Dimension dimension, Color color) throws SQLException {
 			try {
 				etudiantService.addEtudiant(etudiant);
 			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 		}
