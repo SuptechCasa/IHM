@@ -110,7 +110,7 @@ public Fenetre(Dimension dimension, Color color) throws SQLException {
     
     DefaultTableModel tableModel=new DefaultTableModel(
     		new Object[][] {},
-    		new Object[] {"Nom","Prénom","Sexe","filière"}
+    		new Object[] {"Id","Nom","Prénom","Sexe","filière"}
     		);
     JTable table=new JTable(tableModel);
     JScrollPane scrolPane=new JScrollPane(table);
@@ -128,17 +128,27 @@ public Fenetre(Dimension dimension, Color color) throws SQLException {
     menuSupprimer.addActionListener(e->System.out.println(table.getSelectedRow()));
     popupMenu.add(menuModifier);popupMenu.add(menuSupprimer);
     table.addMouseListener(new MouseAdapter() {
-    	@Override
-    	public void mousePressed(MouseEvent e) {
-    		if (e.getButton()==3)
-    		popupMenu.show(e.getComponent(), e.getX(), e.getY());
-    	}
-    	@Override
-    	public void mouseReleased(MouseEvent e) {
-    		if (e.getButton()==3)
-    		popupMenu.show(e.getComponent(), e.getX(), e.getY());
-    	}
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			if (e.getButton()==3) {
+			popupMenu.show(e.getComponent(), e.getX(),e.getY() );
+			int rowIndex=table.rowAtPoint(e.getPoint());
+			table.setRowSelectionInterval(rowIndex, rowIndex);
+			}
+		}
 	});
+    
+    menuSupprimer.addActionListener(e->{
+    	int rowIndex=table.getSelectedRow();
+    	String id=table.getValueAt(rowIndex, 0).toString();
+    	tableModel.removeRow(rowIndex);
+    	try {
+			etudiantService.deleteEtudiant(id);
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+    });
     
     ajouterBTN.addActionListener(new ActionListener() {	
 		@Override
@@ -148,7 +158,7 @@ public Fenetre(Dimension dimension, Color color) throws SQLException {
 			String vSexe=(F.isSelected())?"F":"M";
 			String vFiliere=filiere.getSelectedItem().toString();
 			System.out.println("{"+vnom+","+vprenom+","+vSexe+","+vFiliere+"}");
-			tableModel.addRow(new Object[]{vnom,vprenom,vSexe,vFiliere});
+			tableModel.addRow(new Object[]{0,vnom,vprenom,vSexe,vFiliere});
 			Etudiant etudiant=new Etudiant(0, vnom, vprenom, vSexe, vFiliere);
 			try {
 				etudiantService.addEtudiant(etudiant);

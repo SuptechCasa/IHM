@@ -50,7 +50,7 @@ public void setFiliere(String filiere) {
 }
 
 public Object[] toObjectArray() {
-	return new Object[] {nom,prenom,sexe,filiere};
+	return new Object[] {id,nom,prenom,sexe,filiere};
 }
 
 }

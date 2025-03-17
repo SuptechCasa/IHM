@@ -22,15 +22,29 @@ private Connection getConnection() throws SQLException {
 }
 
 //Ajouter un étudiant
-public void addEtudiant(Etudiant e) throws SQLException {
+public int addEtudiant(Etudiant e) throws SQLException {
 	String query="insert into etudiant (nom,prenom,sexe,filiere)"
 			+ "values (?,?,?,?)";
 	Connection conn=getConnection();
-	PreparedStatement stmt=conn.prepareStatement(query);
+	PreparedStatement stmt=conn.prepareStatement(query,PreparedStatement.RETURN_GENERATED_KEYS);
 	stmt.setString(1, e.getNom());
 	stmt.setString(2, e.getPrenom());
 	stmt.setString(3, e.getSexe());
 	stmt.setString(4, e.getFiliere());
+	stmt.executeUpdate();
+	ResultSet rs=stmt.getGeneratedKeys();
+	int id=-1;
+	if(rs.next()) {id=rs.getInt(0);}
+	stmt.close();
+	conn.close();
+	return id;
+	
+}
+
+public void deleteEtudiant(String id) throws SQLException {
+	String query="delete from etudiant where id="+id;
+	Connection conn=getConnection();
+	PreparedStatement stmt=conn.prepareStatement(query);
 	stmt.executeUpdate();
 	stmt.close();
 	conn.close();
