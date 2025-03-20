@@ -157,11 +157,11 @@ public Fenetre(Dimension dimension, Color color) throws SQLException {
 			String vprenom=prenom.getText();
 			String vSexe=(F.isSelected())?"F":"M";
 			String vFiliere=filiere.getSelectedItem().toString();
-			System.out.println("{"+vnom+","+vprenom+","+vSexe+","+vFiliere+"}");
-			tableModel.addRow(new Object[]{0,vnom,vprenom,vSexe,vFiliere});
-			Etudiant etudiant=new Etudiant(0, vnom, vprenom, vSexe, vFiliere);
 			try {
-				etudiantService.addEtudiant(etudiant);
+				Etudiant etudiant=new Etudiant(0, vnom, vprenom, vSexe, vFiliere);
+				int id=etudiantService.addEtudiant(etudiant);
+				tableModel.addRow(new Object[]{id,vnom,vprenom,vSexe,vFiliere});
+				
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}

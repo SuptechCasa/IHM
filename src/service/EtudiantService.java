@@ -12,7 +12,7 @@ import java.util.List;
 import model.Etudiant;
 
 public class EtudiantService {
-private final String url="jdbc:mysql://localhost:3306/suptech";
+private final String url="jdbc:mysql://localhost:3306/suptech2";
 private final String user="root";
 private final String password="";
 
@@ -26,15 +26,17 @@ public int addEtudiant(Etudiant e) throws SQLException {
 	String query="insert into etudiant (nom,prenom,sexe,filiere)"
 			+ "values (?,?,?,?)";
 	Connection conn=getConnection();
-	PreparedStatement stmt=conn.prepareStatement(query,PreparedStatement.RETURN_GENERATED_KEYS);
+	PreparedStatement stmt=conn.prepareStatement(query,Statement.RETURN_GENERATED_KEYS);
 	stmt.setString(1, e.getNom());
 	stmt.setString(2, e.getPrenom());
 	stmt.setString(3, e.getSexe());
 	stmt.setString(4, e.getFiliere());
 	stmt.executeUpdate();
-	ResultSet rs=stmt.getGeneratedKeys();
 	int id=-1;
-	if(rs.next()) {id=rs.getInt(0);}
+    ResultSet generatedKeys = stmt.getGeneratedKeys();
+    if (generatedKeys.next()) {
+        id = generatedKeys.getInt(1); // Récupération de la clé
+	}
 	stmt.close();
 	conn.close();
 	return id;
