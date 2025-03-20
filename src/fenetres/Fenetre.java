@@ -138,6 +138,19 @@ public Fenetre(Dimension dimension, Color color) throws SQLException {
 		}
 	});
     
+    menuModifier.addActionListener(e->{
+    	int ligne=table.getSelectedRow();
+    	nom.setText(table.getValueAt(ligne, 1).toString());
+    	prenom.setText(table.getValueAt(ligne, 2).toString());
+    	System.out.println("H"+table.getValueAt(ligne, 3).toString()+"H");
+    	if (table.getValueAt(ligne, 3).equals("F")) {
+    		F.setSelected(true);
+    	}else {
+    		M.setSelected(true);
+    	}
+    	filiere.setSelectedItem(table.getValueAt(ligne, 4).toString());
+    });
+    
     menuSupprimer.addActionListener(e->{
     	int rowIndex=table.getSelectedRow();
     	String id=table.getValueAt(rowIndex, 0).toString();
