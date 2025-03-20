@@ -5,6 +5,7 @@ import java.awt.BorderLayout;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Label;
 import java.awt.ScrollPane;
@@ -64,17 +65,20 @@ public Fenetre(Dimension dimension, Color color) throws SQLException {
     JPanel estPanel=new JPanel();centre.add(estPanel,BorderLayout.EAST);
     JPanel ouestPanel=new JPanel();centre.add(ouestPanel,BorderLayout.WEST);
     JPanel sudPanel=new JPanel();centre.add(sudPanel,BorderLayout.SOUTH);
-    
     estPanel.setPreferredSize(new Dimension(100,100));
     ouestPanel.setPreferredSize(new Dimension(100,100));
     sudPanel.setPreferredSize(new Dimension(100,220));
     sudPanel.setLayout(new BorderLayout());
-    JButton ajouterBTN=new JButton("Ajouter");
+    JButton ajouterBTN=new JButton("Ajouter");ajouterBTN.setPreferredSize(new Dimension(80, 30));
+    JButton modifierBTN=new JButton("Modifier");modifierBTN.setPreferredSize(new Dimension(80, 30));
     JPanel cPanel=new JPanel();
+    estPanel.setLayout(new BorderLayout());
     estPanel.add(cPanel,BorderLayout.CENTER);
-
-    cPanel.setPreferredSize(new Dimension(100, 102));
+    modifierBTN.setVisible(false);
+    cPanel.setPreferredSize(new Dimension(100, 202));
+    cPanel.add(modifierBTN);
     estPanel.add(ajouterBTN,BorderLayout.SOUTH);
+    estPanel.add(cPanel,BorderLayout.CENTER);
     centre.setBackground(Color.WHITE);
     centre.setBorder(panelBorder);
 
@@ -89,6 +93,8 @@ public Fenetre(Dimension dimension, Color color) throws SQLException {
     JLabel lprenom=new JLabel("Prénom"); 
     JLabel lsexe=new JLabel("Sexe"); 
     JLabel lfiliere=new JLabel("Filière");
+    JLabel lId=new JLabel();
+    lId.setVisible(false);
     //Ajouter les composants
     JTextField nom=new JTextField();
     JTextField prenom=new JTextField();
@@ -142,13 +148,17 @@ public Fenetre(Dimension dimension, Color color) throws SQLException {
     	int ligne=table.getSelectedRow();
     	nom.setText(table.getValueAt(ligne, 1).toString());
     	prenom.setText(table.getValueAt(ligne, 2).toString());
-    	System.out.println("H"+table.getValueAt(ligne, 3).toString()+"H");
+    	lId.setText(table.getValueAt(ligne, 0).toString());
     	if (table.getValueAt(ligne, 3).equals("F")) {
     		F.setSelected(true);
     	}else {
     		M.setSelected(true);
     	}
     	filiere.setSelectedItem(table.getValueAt(ligne, 4).toString());
+    	ajouterBTN.setText("Annuler");
+    	modifierBTN.setVisible(true);
+    	table.setRowSelectionAllowed(false);
+    	
     });
     
     menuSupprimer.addActionListener(e->{
@@ -166,6 +176,12 @@ public Fenetre(Dimension dimension, Color color) throws SQLException {
     ajouterBTN.addActionListener(new ActionListener() {	
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			if (ajouterBTN.getText().equals("Annuler")) {
+				ajouterBTN.setText("Ajouter");
+				modifierBTN.setVisible(false);
+				nom.setText("");prenom.setText("");
+				return;
+			}
 			String vnom=nom.getText();
 			String vprenom=prenom.getText();
 			String vSexe=(F.isSelected())?"F":"M";
@@ -180,6 +196,33 @@ public Fenetre(Dimension dimension, Color color) throws SQLException {
 			}
 		}
 	});
+    
+    modifierBTN.addActionListener(new ActionListener() {
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			int vId=Integer.parseInt(lId.getText());
+			String vnom=nom.getText();
+			String vprenom=prenom.getText();
+			String vSexe=(F.isSelected())?"F":"M";
+			String vFiliere=filiere.getSelectedItem().toString();
+			Etudiant etudiant=new Etudiant(vId, vnom, vprenom, vSexe, vFiliere);
+			try {
+				etudiantService.updateEtudiant(etudiant);
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			table.setValueAt(lId.getText(), table.getSelectedRow(), 0);
+			table.setValueAt(nom.getText(), table.getSelectedRow(), 1);
+			table.setValueAt(prenom.getText(), table.getSelectedRow(), 2);
+			table.setValueAt((F.isSelected())?"F":"M", table.getSelectedRow(), 3);
+			table.setValueAt(filiere.getSelectedItem().toString(), table.getSelectedRow(), 4);
+			ajouterBTN.setText("Ajouter");
+			modifierBTN.setVisible(false);
+		}
+	});
+    
     setVisible(true);
 }
 }

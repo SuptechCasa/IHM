@@ -69,4 +69,17 @@ public List<Etudiant> getAllEtudiants() throws SQLException{
 	}
 	return etudiants;
 }
+
+public void updateEtudiant(Etudiant e) throws SQLException {
+	String query="update etudiant set nom=?,prenom=?,sexe=?,filiere=? where id="+e.getId();
+	Connection conn=getConnection();
+	PreparedStatement stmt=conn.prepareStatement(query);
+	stmt.setString(1, e.getNom());
+	stmt.setString(2, e.getPrenom());
+	stmt.setString(3, e.getSexe());
+	stmt.setString(4, e.getFiliere());
+	stmt.executeUpdate();
+	stmt.close();
+	conn.close();
+}
 }
