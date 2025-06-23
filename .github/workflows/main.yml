@@ -1,16 +1,9 @@
-name: Mon Premier Workflow
+steps:
+  - name: Étape 1 : Dire Bonjour
+    run: echo "Bonjour !"
 
-# 📌 Déclencheur : à chaque push sur main
-on:
-  push:
-    branches:
-      - main
+  - name: Étape 2 : Afficher la date
+    run: date
 
-# 💼 Tâches à exécuter
-jobs:
-  dire-bonjour:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Dire Bonjour
-        run: echo "👋 Bonjour depuis GitHub Actions !"
+  - name: Étape 3 : Lister les fichiers
+    run: ls -la
