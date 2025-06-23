@@ -1,0 +1,16 @@
+name: Mon Premier Workflow
+
+# 📌 Déclencheur : à chaque push sur main
+on:
+  push:
+    branches:
+      - main
+
+# 💼 Tâches à exécuter
+jobs:
+  dire-bonjour:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Dire Bonjour
+        run: echo "👋 Bonjour depuis GitHub Actions !"
